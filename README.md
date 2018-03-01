@@ -22,6 +22,7 @@ pip install twisted
 ```
 cp /captures/packetcap.service /etc/systemd/system/packetcap.service
 systemctl daemon-reload
+systemctl enable packetcap.service
 ```
 4. Verify that the python script executes with no errors:
 ```
