@@ -3,7 +3,59 @@ Open Source IDP PCAP receiver originally created by Oscar Ibatullin.
 
 Used as an alternative to Security Director/JSA/STRM/QRadar for collecting SRX IDP Attack Packets (PCAP) for forensic analysis/incident response.
 
-# Installation instructions
+# Installation intructions - Linux Host
+
+These installation instructions assume that you will use the directory /captures as the working directory to store all packet captures. Personally I have this directory mounted as a seperate disk.
+
+1. Clone this repo into /captures:
+```
+mkdir /captures
+cd /captures
+git clone git@github.com:sysadminblog/SRX_PCAP_Receiver.git .
+```
+2. Install the requirements with apt/pip:
+```
+apt-get install python2.7 python-pip python-dpkt
+pip install twisted
+```
+3. Add the systemd service file so that the service can be started automatically on boot and reload systemd:
+```
+cp /captures/packetcap.service /etc/systemd/system/packetcap.service
+systemctl daemon-reload
+```
+4. Verify that the python script executes with no errors:
+```
+cd /captures && /captures/srx_pcap_receiver.py
+```
+5. Control C out of the process, and then start it with systemd:
+```
+service packetcap start
+```
+
+The packet captures are available in the directory `/captures/Juniper_IDP_PCAP_Storage`.
+
+## NFS Access
+
+To make things easy, I mount the directory with NFS on my PC so I can browse it and open the captures with wireshark easily.
+
+1. Install the NFS requirements:
+```
+apt-get install nfs-common nfs-kernel-server
+```
+2. Configure the NFS server to allow mounting. In this example my PC IP is 192.168.34.231:
+```
+cat << EOF >> /etc/exports
+/captures/Juniper_IDP_PCAP_Storage         192.168.34.231(ro,sync,fsid=0,no_subtree_check,no_root_squash)
+EOF
+```
+3. Export the share:
+```
+exportfs -a
+```
+
+The directory can be mounted as usual, eg. for Windows hosts (with the NFS feature installed), use `mount \\linux-host\captures\Juniper_IDP_PCAP_Storage G:`
+
+# Installation instructions - SRX Device
 Configure SRX to forward IDP Attack packets (pre and post) to the collector's IP address. The script listens on UDP port 2050 by default but you can change this.
 ```
 set security idp sensor-configuration packet-log source-address 'your_source_address'
