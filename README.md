@@ -56,6 +56,15 @@ exportfs -a
 
 The directory can be mounted as usual, eg. for Windows hosts (with the NFS feature installed), use `mount \\linux-host\captures\Juniper_IDP_PCAP_Storage G:`
 
+## Capture Cleanups
+
+To remove all packet captures older than 4 weeks, add the cron:
+```
+cp /captures/packetcap.cron /etc/cron.d/packetcap
+```
+
+The cron can be edited to make this more/less than 4 weeks if required.
+
 # Installation instructions - SRX Device
 Configure SRX to forward IDP Attack packets (pre and post) to the collector's IP address. The script listens on UDP port 2050 by default but you can change this.
 ```
