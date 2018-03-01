@@ -1,0 +1,13 @@
+[Unit]
+Description=Juniper SRX IDP Packet Capture Service
+
+[Service]
+Type=simple
+User=root
+Group=root
+Restart=always
+ExecStart=/captures/srx_pcap_receiver.py
+WorkingDirectory=/captures
+
+[Install]
+WantedBy=multi-user.target
