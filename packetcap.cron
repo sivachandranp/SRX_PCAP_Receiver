@@ -1,3 +1,3 @@
 # Cron file for the Juniper SRX PCAP Reciever - This will remove packet captures that are older than 28 days (4 weeks).
 
-0 23 * * * /usr/bin/find /captures/Juniper_IDP_PCAP_Storage -type f -mtime +28 -exec rm -f "{}" \;
+0 23 * * * root /usr/bin/find /captures/Juniper_IDP_PCAP_Storage -type f -mtime +28 -exec rm -f "{}" \;
