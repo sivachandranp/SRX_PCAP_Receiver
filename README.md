@@ -11,7 +11,7 @@ These installation instructions assume that you will use the directory /captures
 ```
 mkdir /captures
 cd /captures
-git clone git@github.com:sysadminblog/SRX_PCAP_Receiver.git .
+git clone https://github.com/sysadminblog/SRX_PCAP_Receiver.git .
 ```
 2. Install the requirements with apt/pip:
 ```
@@ -26,11 +26,15 @@ systemctl enable packetcap.service
 ```
 4. Verify that the python script executes with no errors:
 ```
-cd /captures && /captures/srx_pcap_receiver.py
+cd /captures && chmod +x srx_pcap_receiver.py && /captures/srx_pcap_receiver.py
 ```
 5. Control C out of the process, and then start it with systemd:
 ```
 service packetcap start
+```
+6. Create the packet capture directory:
+```
+mkdir /captures/Juniper_IDP_PCAP_Storage
 ```
 
 The packet captures are available in the directory `/captures/Juniper_IDP_PCAP_Storage`.
